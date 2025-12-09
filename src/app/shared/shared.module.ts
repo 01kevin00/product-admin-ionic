@@ -16,12 +16,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     HeaderComponent,
     CustomInputComponent,
-    LogoComponent
+    LogoComponent,
+    ReactiveFormsModule
   ],
   exports: [
     HeaderComponent,
     CustomInputComponent,
-    LogoComponent
+    LogoComponent,
+    ReactiveFormsModule
+
   ]
 })
 export class SharedModule { }

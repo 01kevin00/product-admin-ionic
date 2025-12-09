@@ -1,4 +1,16 @@
-<app-header></app-header>
+<app-header title="Login"></app-header>
 <ion-content>
 
+    <div class="d-flex-center">
+
+        <form [formGroup]="form" class="auth-form">
+
+            <app-custom-input autocomplete="email" icon="mail-outline" [control]="form.controls.email" type="email"
+                label="correo"></app-custom-input>
+
+            <app-custom-input [control]="form.controls.password" icon="lock-closed-outline" type="password"
+                label="contraseña"></app-custom-input>
+
+        </form>
+    </div>
 </ion-content>

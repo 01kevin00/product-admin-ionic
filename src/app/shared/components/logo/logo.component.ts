@@ -8,10 +8,10 @@ import { CommonModule } from '@angular/common';
   templateUrl: './logo.component.html',
   styleUrls: ['./logo.component.scss'],
 })
-export class LogoComponent  implements OnInit {
+export class LogoComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
 }
