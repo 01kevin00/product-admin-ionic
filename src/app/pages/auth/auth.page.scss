@@ -1,0 +1,6 @@
+.d-flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; // Ensures it takes full height of ion-content
+}
