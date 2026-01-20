@@ -4,13 +4,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-sing-up',
+  selector: 'app-sign-up',
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
-  templateUrl: './sing-up.page.html',
-  styleUrls: ['./sing-up.page.scss'],
+  templateUrl: './sign-up.page.html',
+  styleUrls: ['./sign-up.page.scss'],
 })
-export class SingUpPage implements OnInit {
+export class SignUpPage implements OnInit {
 
   constructor() { }
 

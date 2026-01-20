@@ -8,6 +8,7 @@ import { AuthPageRoutingModule } from './auth-routing.module';
 
 import { AuthPage } from './auth.page';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { SignUpPageModule } from './sign-up/sign-up.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     IonicModule,
     AuthPageRoutingModule,
     SharedModule,
-    AuthPage
+    AuthPage,
+    SignUpPageModule
   ]
 })
 export class AuthPageModule { }
