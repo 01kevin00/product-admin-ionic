@@ -1,6 +1,15 @@
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
 .shield-icon {
     font-size: 80px;
     margin-top: 40px;
+    margin-bottom: 10px;
 }
 
 h1 {
