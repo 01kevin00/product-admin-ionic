@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -7,6 +7,9 @@ import { HeaderComponent } from 'src/app/shared/components/header/header.compone
 import { CustomInputComponent } from 'src/app/shared/components/custom-input/custom-input.component';
 import { LogoComponent } from 'src/app/shared/components/logo/logo.component';
 import { SignUpPageModule } from './sign-up/sign-up.module';
+import { FirebaseServices } from 'src/app/services/firebase.services';
+import { User } from 'src/app/models/user.model';
+import { UtilsServices } from 'src/app/services/utils.services';
 
 @Component({
   selector: 'app-auth',
@@ -22,12 +25,27 @@ export class AuthPage implements OnInit {
     password: new FormControl('', [Validators.required])
   })
 
-  constructor() { }
+  firebaseSvc = inject(FirebaseServices);
+  utilsSvc = inject(UtilsServices);
+
 
   ngOnInit() {
   }
 
-  submit() {
-    console.log(this.form.value);
+  async submit() {
+    if (this.form.valid) {
+      const loading = await this.utilsSvc.loading();
+      await loading.present();
+
+      this.firebaseSvc.signIn(this.form.value as User).then(res => {
+
+        console.log(res);
+
+      }).catch(error => {
+        console.log(error);
+      }).finally(() => {
+        loading.dismiss();
+      });
+    }
   }
 }
