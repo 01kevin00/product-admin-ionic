@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController, ToastOptions } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
@@ -7,8 +7,16 @@ import { LoadingController } from '@ionic/angular';
 export class UtilsServices {
 
   loadingCtrl = inject(LoadingController);
+  toastCtrl = inject(ToastController);
 
+  // ======================== LOADING ========================
   loading() {
     return this.loadingCtrl.create({ spinner: 'crescent' });
+  }
+
+  // ======================== TOAST ========================
+  async presentToast(opts?: ToastOptions) {
+    const toast = await this.toastCtrl.create(opts);
+    toast.present();
   }
 }
