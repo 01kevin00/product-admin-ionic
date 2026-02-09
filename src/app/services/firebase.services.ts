@@ -13,6 +13,8 @@ import { Auth, getAuth, provideAuth } from '@angular/fire/auth';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { environment } from '../../environments/environment';
 import { User } from '../models/user.model';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { getFirestore, setDoc, doc } from '@angular/fire/firestore';
 
 @NgModule({
   imports: [
@@ -35,8 +37,9 @@ export class AppModule { }
 export class FirebaseServices {
 
   auth = inject(Auth);
+  firestore = inject(AngularFirestore);
 
-  // ======================== authentication ========================
+  // =================================================================================== AUTENTICACION 
 
   // ========================    acceder     ======================== 
   signIn(user: User) {
@@ -51,7 +54,6 @@ export class FirebaseServices {
   // ======================== Actualizar Usuario ========================
   updateUser(displayName: string) {
     const currentUser = this.auth.currentUser;
-
     // Validación CLAVE: Si no hay usuario, no hacemos la petición
     if (currentUser) {
       return updateProfile(currentUser, { displayName: displayName });
@@ -60,5 +62,12 @@ export class FirebaseServices {
       console.warn('No hay usuario logueado para actualizar perfil');
       return Promise.resolve();
     }
+  }
+
+  // =================================================================================== BASE DE DATOS (FIRESTORE)
+
+  //setear un documento (crear o actualizar)
+  setDocument(path: string, data: any) {
+    return setDoc(doc(getFirestore(), path), data);
   }
 }
