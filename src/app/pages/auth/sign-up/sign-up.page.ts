@@ -9,6 +9,7 @@ import { LogoComponent } from 'src/app/shared/components/logo/logo.component';
 import { FirebaseServices } from 'src/app/services/firebase.services';
 import { User } from 'src/app/models/user.model';
 import { UtilsServices } from 'src/app/services/utils.services';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,6 +19,8 @@ import { UtilsServices } from 'src/app/services/utils.services';
   styleUrls: ['./sign-up.page.scss'],
 })
 export class SignUpPage implements OnInit {
+
+  isSubmitting = false;
 
   form = new FormGroup({
     uid: new FormControl(''),
@@ -34,7 +37,12 @@ export class SignUpPage implements OnInit {
   }
 
   async submit() {
+    if (this.isSubmitting) {
+      return;
+    }
+
     if (this.form.valid) {
+      this.isSubmitting = true;
       const loading = await this.utilsSvc.loading();
       await loading.present();
 
@@ -59,6 +67,7 @@ export class SignUpPage implements OnInit {
 
       }).finally(() => {
         loading.dismiss();
+        this.isSubmitting = false;
       });
     }
   }
@@ -75,6 +84,8 @@ export class SignUpPage implements OnInit {
       this.firebaseSvc.setDocument(path, this.form.value).then(async res => {
 
         this.utilsSvc.saveInLocalStorage('user', this.form.value);
+        this.utilsSvc.routerLink('/main/home');
+        this.form.reset();
 
       }).catch(error => {
         console.log(error);
