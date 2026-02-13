@@ -57,4 +57,43 @@ export class AuthPage implements OnInit {
       });
     }
   }
+
+
+  async getUserInfo(uid: string) {
+    if (this.form.valid) {
+      const loading = await this.utilsSvc.loading();
+      await loading.present();
+
+      let path = `users/${uid}`;
+
+      this.firebaseSvc.getDocument(path).then(user => {
+
+        this.utilsSvc.saveInLocalStorage('user', user);
+        this.utilsSvc.routerLink('/main/home');
+        this.form.reset();
+
+        this.utilsSvc.presentToast({
+          message: 'Usuario autenticado correctamente ${user.name}',
+          duration: 2500,
+          color: 'success',
+          position: 'middle',
+          icon: 'checkmark-circle-outline'
+        });
+
+      }).catch(error => {
+        console.log(error);
+
+        this.utilsSvc.presentToast({
+          message: error.message,
+          duration: 2500,
+          color: 'danger',
+          position: 'middle',
+          icon: 'alert-circle-outline'
+        });
+
+      }).finally(() => {
+        loading.dismiss();
+      });
+    }
+  }
 }
