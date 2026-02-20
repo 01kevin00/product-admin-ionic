@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { User } from '../models/user.model';
-import { Firestore, setDoc, doc } from '@angular/fire/firestore';
+import { Firestore, setDoc, doc, getDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -42,5 +42,10 @@ export class FirebaseServices {
   //setear un documento (crear o actualizar)
   setDocument(path: string, data: any) {
     return setDoc(doc(this.firestore, path), data);
+  }
+
+  // obtener un documento
+  async getDocument(path: string) {
+    return (await getDoc(doc(this.firestore, path))).data();
   }
 }

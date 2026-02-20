@@ -10,6 +10,7 @@ import { SignUpPageModule } from './sign-up/sign-up.module';
 import { FirebaseServices } from 'src/app/services/firebase.services';
 import { User } from 'src/app/models/user.model';
 import { UtilsServices } from 'src/app/services/utils.services';
+import { user } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-auth',
@@ -40,6 +41,45 @@ export class AuthPage implements OnInit {
       this.firebaseSvc.signIn(this.form.value as User).then(res => {
 
         console.log(res);
+
+      }).catch(error => {
+        console.log(error);
+
+        this.utilsSvc.presentToast({
+          message: error.message,
+          duration: 2500,
+          color: 'danger',
+          position: 'middle',
+          icon: 'alert-circle-outline'
+        });
+
+      }).finally(() => {
+        loading.dismiss();
+      });
+    }
+  }
+
+
+  async getUserInfo(uid: string) {
+    if (this.form.valid) {
+      const loading = await this.utilsSvc.loading();
+      await loading.present();
+
+      let path = `users/${uid}`;
+
+      this.firebaseSvc.getDocument(path).then((user: User) => {
+
+        this.utilsSvc.saveInLocalStorage('user', user);
+        this.utilsSvc.routerLink('/main/home');
+        this.form.reset();
+
+        this.utilsSvc.presentToast({
+          message: `Usuario autenticado correctamente ${user.name}`,
+          duration: 1500,
+          color: 'success',
+          position: 'middle',
+          icon: 'person-circle-outline'
+        });
 
       }).catch(error => {
         console.log(error);
